@@ -1,0 +1,63 @@
+{% extends 'forecast_scrapping/base.html' %}
+{% block content %}
+<div class="header clearfix">
+    <nav>
+        <ul class="nav nav-pills pull-right">
+            <li role="presentation" class="active"><a href="/weather">Weather</a></li>
+            <li role="presentation"><a href="/api_forecast">Get Latest 7 days Weather Forecast</a></li>
+            <li role="presentation"><a href="/logout">Logout </a></li>
+        </ul>
+    </nav>
+    <h3 class="text-muted">Weather Forecast | Hi {{ username|title }}, Welcome {{ name }}</h3>
+</div>
+
+<div class="jumbotron">
+
+    <table class="table table-responsive">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Min Temp</th>
+                <th>Max Temp</th>
+                <th>Wind</th>
+                <th>Rain</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% if weather %}
+            {% for wth in weather %}
+            <tr>
+                <td>{{ wth.date }}</td>
+                <td>{{ wth.min_tem }}</td>
+                <td>{{ wth.max_temp }}</td>
+                <td>{{ wth.wind }}</td>
+                <td>{{ wth.rain }}</td>
+            </tr>
+            {% endfor %}
+        {% endif %}
+        </tbody>
+    </table>
+
+    <nav>
+        <ul class="pagination">
+            <li>
+                {% if weather.has_previous %}
+                    <a href="/weather?page={{ weather.previous_page_number }}">previous</a>
+                {% endif %}
+            </li>
+
+            <li>
+                <a>Page {{ weather.number }} of {{ weather.paginator.num_pages }}</a>
+            </li>
+
+            <li>
+                {% if weather.has_next %}
+                    <a href="/weather?page={{ weather.next_page_number }}">next</a>
+                {% endif %}
+            </li>
+        </ul>
+    </nav>
+
+</div>
+
+{% endblock %}
